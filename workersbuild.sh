@@ -25,21 +25,13 @@ curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-$DOCKER
 mkdir -p /tmp/docker-install
 tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
 
-# Copy the Docker binaries to /usr/local/bin with sudo
-echo "Copying Docker binaries to /usr/local/bin..."
-cp /tmp/docker-install/* /usr/local/bin/
-
-# Clean up
-rm -rf /tmp/docker-install
-rm docker.tgz
-
 # Step 3: Verify Docker Installation
 echo "Verifying Docker installation..."
-docker --version
+/tmp/docker-install/docker --version
 
 # Step 4: Build and run the Docker container
 echo "Building and running Docker container..."
-docker build -t my-python-app .
-docker run -d -p 4000:80 my-python-app
+/tmp/docker-install/docker build -t my-python-app .
+/tmp/docker-install/docker run -d -p 4000:80 my-python-app
 
 echo "Setup complete! Visit http://localhost:4000 in your browser."
