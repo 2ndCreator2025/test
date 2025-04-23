@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e  # Exit on error
 
-# 1. Verify essential dependencies
+# 1. Verify essential dependencies (pre-installed in Workers Builds)
 check_dependency() {
     if ! command -v $1 &> /dev/null; then
         echo "ERROR: Required command '$1' not found"
@@ -11,6 +11,7 @@ check_dependency() {
 
 echo "Checking system dependencies..."
 check_dependency curl
+check_dependency wget
 check_dependency newuidmap
 check_dependency newgidmap
 
@@ -32,13 +33,25 @@ chmod +x $DOCKER_DIR/dockerd/dockerd-rootless-setuptool.sh
 $DOCKER_DIR/dockerd/dockerd-rootless-setuptool.sh install --force
 
 # 4. Set environment variables
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
 echo "Docker Host: $DOCKER_HOST"
 
-# 5. Start Docker daemon
+# 5. Start Docker daemon directly (no systemd)
 echo "Starting Docker service..."
-systemctl --user start docker
-sleep 2  # Brief wait for daemon initialization
+$DOCKER_DIR/dockerd/dockerd-rootless.sh > /tmp/docker.log 2>&1 &
+
+# Wait for Docker daemon to be ready
+echo "Waiting for Docker to start..."
+timeout=30
+while [ ! -S "$XDG_RUNTIME_DIR/docker.sock" ]; do
+    if [ "$timeout" -le 0 ]; then
+        echo "Timeout waiting for Docker daemon"
+        exit 1
+    fi
+    sleep 1
+    ((timeout--))
+done
 
 # 6. Verify Docker connectivity
 echo "Verifying Docker connection..."
