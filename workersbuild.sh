@@ -25,8 +25,9 @@ curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-$DOCKER
 mkdir -p /tmp/docker-install
 tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
 
-# Move the Docker binaries to /usr/local/bin
-mv /tmp/docker-install/* /usr/local/bin/
+# Copy the Docker binaries to /usr/local/bin with sudo
+echo "Copying Docker binaries to /usr/local/bin..."
+cp /tmp/docker-install/* /usr/local/bin/
 
 # Clean up
 rm -rf /tmp/docker-install
