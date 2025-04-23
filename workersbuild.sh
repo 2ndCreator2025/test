@@ -29,7 +29,8 @@ tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
 echo "Verifying Docker installation..."
 /tmp/docker-install/docker --version
 
-/tmp/docker-install/dockerd
+/tmp/docker-install/dockerd/dockerd-rootless-setuptool.sh install
+
 
 # Step 4: Build and run the Docker container
 echo "Building and running Docker container..."
