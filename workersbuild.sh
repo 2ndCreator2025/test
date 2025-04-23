@@ -29,6 +29,8 @@ tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
 echo "Verifying Docker installation..."
 /tmp/docker-install/docker --version
 
+systemctl start /tmp/docker-install/docker
+
 # Step 4: Build and run the Docker container
 echo "Building and running Docker container..."
 /tmp/docker-install/docker build -t my-python-app .
