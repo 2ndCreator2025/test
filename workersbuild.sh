@@ -17,11 +17,15 @@ fi
 
 # Step 2: Install Docker
 echo "Setting up Docker..."
-# Download the Docker installation script
-curl -fsSL https://get.docker.com -o get-docker.sh
+# Download the Docker binary
+DOCKER_VERSION="20.10.24"  # Specify the desired Docker version
+curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-$DOCKER_VERSION.tgz -o docker.tgz
 
-# Run the installation script
-sh get-docker.sh
+# Extract the Docker binary
+tar xzvf docker.tgz --strip 1 -C /usr/local/bin
+
+# Clean up
+rm docker.tgz
 
 # Step 3: Verify Docker Installation
 echo "Verifying Docker installation..."
