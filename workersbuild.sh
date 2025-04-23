@@ -22,6 +22,8 @@ echo "Setting up environment variables..."
 export PATH=$HOME/bin:$PATH
 export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 
+docker version
+
 # Step 4: Start Docker daemon using sh in the background
 echo "Starting Docker daemon in the background..."
 nohup dockerd-rootless.sh > dockerd.log 2>&1 &
