@@ -21,10 +21,15 @@ echo "Setting up Docker..."
 DOCKER_VERSION="20.10.24"  # Specify the desired Docker version
 curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-$DOCKER_VERSION.tgz -o docker.tgz
 
-# Extract the Docker binary
-tar xzvf docker.tgz --strip 1 -C /usr/local/bin
+# Create a temporary directory for extraction
+mkdir -p /tmp/docker-install
+tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
+
+# Move the Docker binaries to /usr/local/bin
+sudo mv /tmp/docker-install/* /usr/local/bin/
 
 # Clean up
+rm -rf /tmp/docker-install
 rm docker.tgz
 
 # Step 3: Verify Docker Installation
