@@ -15,7 +15,7 @@ fi
 
 # Step 2: Install Rootless Docker
 echo "Setting up rootless Docker..."
-curl -fsSL https://get.docker.com/rootless | sh
+SKIP_IPTABLES=1 curl -fsSL https://get.docker.com/rootless | sh
 
 # Step 3: Set up environment variables
 echo "Setting up environment variables..."
