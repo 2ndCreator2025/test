@@ -26,7 +26,7 @@ mkdir -p /tmp/docker-install
 tar xzvf docker.tgz --strip 1 -C /tmp/docker-install
 
 # Move the Docker binaries to /usr/local/bin
-sudo mv /tmp/docker-install/* /usr/local/bin/
+mv /tmp/docker-install/* /usr/local/bin/
 
 # Clean up
 rm -rf /tmp/docker-install
